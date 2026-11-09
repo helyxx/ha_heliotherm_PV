@@ -1,4 +1,11 @@
 # HaHeliotherm - Component
+
+> **Fork von [mbuchber/ha_heliotherm](https://github.com/mbuchber/ha_heliotherm)** (Basis v1.0.43) mit PV-Erweiterungen:
+> - Number-Entitaet **Leistungsaufnahmevorgabe** (0-10000 W, Modbus-Register 125, schreibbar)
+> - Sensoren **PV Anforderung** (Reg. 117) und **Leistungsaufnahmevorgabe** (Reg. 125)
+>
+> Installation ueber HACS als *Custom repository*: `https://github.com/helyxx/ha_heliotherm_PV`, Kategorie *Integration*.
+> Upstream-Updates einspielen: `git fetch upstream` und `git merge upstream/main`.
 <img src="https://github.com/mbuchber/ha_heliotherm/blob/b3bb7d035f186dd6520c8395d5a5111821dac922/heliotherm.png"  width="512">
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg)](https://github.com/hacs/integration)

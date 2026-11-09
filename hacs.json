@@ -1,8 +1,7 @@
 {
   "name": "ha_heliotherm",
   "render_readme": true, 
-  "zip_release": true,
-  "filename": "ha_heliotherm.zip",
+  "zip_release": false,
   "homeassistant": "0.100.0",
   "hacs": "0.24.0"
 }
