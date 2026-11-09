@@ -113,7 +113,28 @@ CLIMATE_TYPES: dict[str, list[HaHeliothermClimateEntityDescription]] = {
 
 }
 
-NUMBER_TYPES: dict[str, list[HaHeliothermNumberEntityDescription]] = {}
+#NUMBER_TYPES: dict[str, list[HaHeliothermNumberEntityDescription]] = {}
+# DKDKDK
+NUMBER_TYPES: dict[str, list[HaHeliothermNumberEntityDescription]] = {
+#    "pv_anforderung": HaHeliothermNumberEntityDescription(
+#        name="PV Anforderung",
+#        key="pv_anforderung",
+#        native_min_value=0,
+#        native_max_value=1,
+#        native_step=1,
+#        mode="slider",
+#    ),
+    "leistungsaufnahme_vorgabe": HaHeliothermNumberEntityDescription(
+        name="Leistungsaufnahmevorgabe",
+        key="leistungsaufnahme_vorgabe",
+        native_unit_of_measurement="W",
+        device_class=NumberDeviceClass.POWER,
+        native_min_value=0,
+        native_max_value=10000,
+        native_step=100,
+        mode="box",
+    ),
+}
 
 SELECT_TYPES: dict[str, list[HaHeliothermSelectEntityDescription]] = {
     "select_betriebsart": HaHeliothermSelectEntityDescription(
@@ -353,6 +374,17 @@ SENSOR_TYPES: dict[str, list[HaHeliothermSensorEntityDescription]] = {
         name="WMZ Leistung",
         key="wmz_leistung",
         native_unit_of_measurement="kW",
+        device_class=SensorDeviceClass.POWER,
+        state_class=SensorStateClass.MEASUREMENT,
+    ),
+    "pv_anforderung": HaHeliothermSensorEntityDescription(
+        name="PV Anforderung",
+        key="pv_anforderung",
+    ),
+    "leistungsaufnahme_vorgabe": HaHeliothermSensorEntityDescription(
+        name="Leistungsaufnahmevorgabe",
+        key="leistungsaufnahme_vorgabe",
+        native_unit_of_measurement="W",
         device_class=SensorDeviceClass.POWER,
         state_class=SensorStateClass.MEASUREMENT,
     ),

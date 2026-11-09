@@ -99,5 +99,7 @@ class HaHeliothermModbusNumber(NumberEntity):
     def set_native_value(self, value: float) -> None:
         self._attr_value = value
 
+#    async def async_set_native_value(self, value: float) -> None:
+#        self._attr_value = value
     async def async_set_native_value(self, value: float) -> None:
-        self._attr_value = value
+        await self._hub.setter_function_callback(self, value)

@@ -31,7 +31,7 @@ from .const import DEFAULT_NAME, DEFAULT_SCAN_INTERVAL, DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 # PLATFORMS = [Platform.SENSOR, Platform.BINARY_SENSOR, Platform.SELECT]
-PLATFORMS = [Platform.SELECT, Platform.SENSOR, Platform.BINARY_SENSOR, Platform.CLIMATE]
+PLATFORMS = [Platform.SELECT, Platform.SENSOR, Platform.BINARY_SENSOR, Platform.CLIMATE,Platform.NUMBER]
 
 
 async def async_setup(hass, config):
@@ -237,7 +237,15 @@ class HaHeliothermModbusHub:
             temp = float(option["temperature"])
             await self.set_rl_soll(temp)
 #---------------------eingefügt-------------------------------------------------
+#---------------------eingefügt----------DKDKDK-------------------------------
+#        if entity.entity_description.key == "pv_anforderung":
+#            await self.set_pv_anforderung(int(option))
+#            return
 
+        if entity.entity_description.key == "leistungsaufnahme_vorgabe":
+            await self.set_leistungsaufnahme_vorgabe(int(option))
+            return
+#---------------------eingefügt-------------------------------------------------
     async def set_betriebsart(self, betriebsart: str):
         betriebsart_nr = self.getbetriebsartnr(betriebsart)
         if betriebsart_nr is None:
@@ -292,6 +300,21 @@ class HaHeliothermModbusHub:
         self._client.write_register(address=103, value=temp_activate_rl_soll, device_id=1)
         await self.async_refresh_modbus_data()
 #---------------------eingefügt-------------------------------------------------
+#---------------------eingefügt------DKDKDK-------------------------
+#    async def set_pv_anforderung(self, value: int):
+#        """PV Anforderung setzen (0 = aus, 1 = ein)"""
+#        if value not in (0, 1):
+#            return
+#        self._client.write_register(address=117, value=value, device_id=1)
+#        await self.async_refresh_modbus_data()
+
+    async def set_leistungsaufnahme_vorgabe(self, value: int):
+        """Leistungsaufnahmevorgabe setzen (0–10000 W)"""
+        if value < 0 or value > 10000:
+            return
+        self._client.write_register(address=125, value=value, device_id=1)
+        await self.async_refresh_modbus_data()
+#---------------------eingefügt-----DKDKDK-------------------------------------
 
     def read_modbus_registers(self):
         """Read from modbus registers"""
@@ -492,7 +515,13 @@ class HaHeliothermModbusHub:
             "temperature": self.checkval(climate_rl_soll, 0.1)
         }
 #---------------------eingefügt-------------------------------------------------
+#---------------------eingefügt-------------------------------------------------
+        pv_anforderung = modbusdata3.registers[17]
+        self.data["pv_anforderung"] = int(pv_anforderung)
 
+        leistungsaufnahme_vorgabe = modbusdata3.registers[25]
+        self.data["leistungsaufnahme_vorgabe"] = int(leistungsaufnahme_vorgabe)
+#---------------------eingefügt--------------------------------------------------
         # externe_anforderung = modbusdata3.registers[20]
 
         return True
